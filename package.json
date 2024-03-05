@@ -1,0 +1,21 @@
+{
+  "name": "learning_https",
+  "version": "1.0.0",
+  "description": "learning https",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dhomii",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "boxicons": "^2.1.4",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mongoose": "^8.2.0",
+    "sass": "^1.71.1"
+  }
+}

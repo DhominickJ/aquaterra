@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="/client/img/icons/icon.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Hello</title>
+</head>
+<body class="container">
+    <div class="upper_container">
+        <div class="greetings_tab">
+            <div id="text_greeting"> 
+                <span> Hello, &nbsp;</span> 
+                <user id="username"></span> 
+            </div>
+        </div>
+        <div class="profile_pic"></div>
+    </div>
+    <div class="search_container">
+        <div id="search_bar"> <span class="representative_text">Today's <span id="plant_name"></span> ToDo List: </span></div>
+        <div id="search_button"></div>
+    </div>
+    <div class="todo_container">
+        <div class="todo" id="todo1">
+            <i class='bx bxs-leaf bx-tada' style='color:#be1414' ></i>
+        </div>
+        <div class="todo" id="todo2">
+            <i class='bx bxs-thermometer bx-tada bx-rotate-90' style='color:#e21919' ></i>
+        </div>
+        <div class="todo" id="todo3">
+            <i class='bx bxs-droplet bx-tada' style='color:#19c6dd' ></i>
+        </div>
+        <div class="todo" id="todo4">
+            <i class='bx bxs-sun bx-tada' style='color:#f0cf18' ></i>
+        </div>
+    </div>
+    <div class="sensor_container">
+        <div class="sensor_information" id="sensor1">  
+            <div class="sensor_data"><span class="sensor_values">25</span>°C</div>     
+            <div class="sensor_label">Temperature</div>
+        </div>
+        <div class="sensor_information" id="sensor2">
+            <div class="sensor_data"><span class="sensor_values">60</span>%</div>
+            <div class="sensor_label">Humidity</div>
+        </div>
+        <div class="sensor_information" id="sensor3">
+            <div class="sensor_data"><span class="sensor_values">90</span>%</div>
+            <div class="sensor_label">Sunlight</div>
+        </div>
+        <div class="sensor_information" id="sensor4">
+            <div class="sensor_data"><span class="sensor_values">50</span>%</div>
+            <div class="sensor_label">Dryness</div>
+        </div>
+    </div>
+    <div class="options_container">
+        <div class="options" id="box1">
+            <i class='bx bx-heart' style='color:#d61313' ></i>
+        </div>
+        <div class="options" id="box2">
+            <i class='bx bx-camera' style='color:#10dae9' ></i>
+        </div>
+        <div class="options" id="box3">
+            <i class='bx bx-check-shield' style='color:#0df146' ></i>
+        </div>
+        <div class="options" id="box4">
+            <i class='bx bx-info-circle' style='color:#df6d02' ></i>       </div>
+    </div>
+    <div class="options_label_container">
+        <div class="options_label">Check Status</div>
+        <div class="options_label">Observe</div>
+        <div class="options_label">Sensors</div>
+        <div class="options_label">Information</div>
+    </div>
+    <div class="labels">Browse Plants</div>
+    <div class="catalog_container">
+        <div class="catalog"></div>
+        <div class="catalog_information"></div>
+    </div>
+    <!-- <div class="navigation_buttons_container">
+        <div class="navigation_buttons"></div>
+        <div class="navigation_buttons"></div>
+        <div class="navigation_buttons"></div>
+        <div class="navigation_buttons"></div>
+    </div>
+    <div class="navigation_labels_container">
+        <div class="navigation_button_labels"></div>
+        <div class="navigation_button_labels"></div>
+        <div class="navigation_button_labels"></div>
+        <div class="navigation_button_labels"></div>
+    </div> -->
+</body>
+    <script>
+        // import 'boxicons';
+        document.getElementById('username').innerHTML = "Sumi~";
+        document.getElementById('plant_name').innerHTML = "Rose";
+        // import { BoxIcon } from 'boxicons';
+    </script>
+</html>
