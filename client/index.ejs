@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/index.css">
-    <link rel="manifest" href="manifest.json">
+    <!-- <link rel="manifest" href="manifest.json"> -->
     <link rel="shortcut icon" href="/client/img/icons/icon.png" type="image/x-icon">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Hello</title>
@@ -39,19 +39,19 @@
     </div>
     <div class="sensor_container">
         <div class="sensor_information" id="sensor1">  
-            <div class="sensor_data"><span class="sensor_values">25</span>°C</div>     
+            <div class="sensor_data"><span class="sensor_values" id="temperature">25</span>°C</div>     
             <div class="sensor_label">Temperature</div>
         </div>
         <div class="sensor_information" id="sensor2">
-            <div class="sensor_data"><span class="sensor_values">60</span>%</div>
+            <div class="sensor_data"><span class="sensor_values" id="humidity">60</span>%</div>
             <div class="sensor_label">Humidity</div>
         </div>
         <div class="sensor_information" id="sensor3">
-            <div class="sensor_data"><span class="sensor_values">90</span>%</div>
+            <div class="sensor_data"><span class="sensor_values" id="light">90</span>%</div>
             <div class="sensor_label">Sunlight</div>
         </div>
         <div class="sensor_information" id="sensor4">
-            <div class="sensor_data"><span class="sensor_values">50</span>%</div>
+            <div class="sensor_data"><span class="sensor_values" id="soil">50</span>%</div>
             <div class="sensor_label">Dryness</div>
         </div>
     </div>
@@ -97,5 +97,27 @@
         document.getElementById('username').innerHTML = "Sumi~";
         document.getElementById('plant_name').innerHTML = "Rose";
         // import { BoxIcon } from 'boxicons';
+    function fetchSensorData(){    
+        fetch('/sensor/info', {
+            method: 'POST',
+            // body: 'temperature=value1&humidity=value2&light_sensor=value3&soil_sensor=value4' // replace value1, value2, value3 with actual values
+        })
+        .then(response => response.json())
+        .then(data => 
+        {
+            console.log(data);
+            document.getElementById('temperature').innerHTML = parseInt(data.temperature);
+            document.getElementById('humidity').innerHTML = parseInt(data.humidity);
+            document.getElementById('light').innerHTML = data.light;
+            document.getElementById('soil').innerHTML = data.soil;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    //Change the value of the sensor data every 5 seconds
+    fetchSensorData();
+    setInterval(fetchSensorData, 2000);
     </script>
 </html>
