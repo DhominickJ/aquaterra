@@ -1,22 +1,20 @@
 {
-  "name": "learning_https",
-  "version": "1.0.0",
-  "description": "learning https",
-  "main": "server.js",
+  "name": "project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "author": "Dhomii",
-  "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "sass": "^1.75.0",
+    "vite": "^5.2.0"
   },
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "boxicons": "^2.1.4",
-    "ejs": "^3.1.9",
-    "express": "^4.18.2",
-    "mongoose": "^8.2.0",
-    "sass": "^1.71.1"
+    "@fontsource/poppins": "^5.0.13",
+    "@phosphor-icons/web": "^2.1.1",
+    "animejs": "^3.2.2"
   }
 }
