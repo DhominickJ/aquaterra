@@ -1,12 +1,14 @@
 .route-sensors {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    // flex-direction: column;
+    grid-template-rows: 1fr 1fr;
 
     video {
         width: 90%;
         margin-top: auto;
 
         margin-bottom: 2rem;
+        grid-row: 2;
     }
 
     .status-elements {
@@ -29,7 +31,7 @@
             width: fit-content;
             aspect-ratio: 1;
 
-            font-size: 3rem;
+            font-size: 2rem;
     
             i {
                 color: var(--accent);
@@ -37,8 +39,22 @@
 
         }
     }
-
+    
     .description {
         backdrop-filter: blur(10px);
+    }
+}
+
+@media screen and (min-width: 800px){
+    .route-sensors {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        
+        video {
+            grid-row: 1;
+            margin-left: 10rem;
+        }
+
     }
 }

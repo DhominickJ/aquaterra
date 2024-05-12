@@ -1,4 +1,5 @@
 import anime from "animejs"
+import axios from "axios"
 
 export default function sensors() {
 
@@ -6,7 +7,7 @@ export default function sensors() {
     const icons = [...document.querySelectorAll('.status-elements span')]
         .reverse()
 
-    console.clear()
+    // console.clear()
     console.warn(('b' + 'a' + +'a' + 'a').toLowerCase())
     console.log(
         `%cEaster Egg\n` +
@@ -60,7 +61,7 @@ export default function sensors() {
             targets: el,
             keyframes: [
                 { scale: ['100%', '150%'], easing: 'easeInQuad', duration: 200 },
-                { left: '55vw', scale: '100%', duration: 0 },
+                { left: '55vw', scale: '300%', duration: 0 },
                 { top: [-100, '45vh'], duration: 600, easing: 'easeOutElastic(3, 1)' }
             ],
             changeBegin: () => el.classList.add('animating'),
@@ -70,42 +71,47 @@ export default function sensors() {
     })
 
 
-    // function fetchSensorData() {
-    //     // fetch('/sensor/info', {
-    //         // method: 'POST',
-    //         // // body: 'temperature=value1&humidity=value2&light_sensor=value3&soil_sensor=value4' // replace value1, value2, value3 with actual values
-    //     // })
-    //         // .then(response => response.json())
-    //         // .then(data => {
-    //             // const soil_state = data.soil === 1 ? "Wet" : "Dry";
-    //             // // Measuring the different thresholds of the sensors and displaying them with colors
-    //             // if (data.temperature > 30) {
-    //                 // document.getElementById('temperature').style.color = "red";
-    //                 // document.querySelector('.temperature').style.backgroundColor = "orange";
-    //             // }
-    //             // if (data.humidity < 50) {
-    //                 // document.getElementById('humidity').style.color = "red";
-    //                 // document.querySelector('.humidity').style.backgroundColor = "orange";
-    //             // }
-    //             // if (data.light < 100) {
-    //                 // document.getElementById('light').style.color = "red";
-    //                 // document.querySelector('.light').style.backgroundColor = "orange";
-    //             // }
-    //             // if (soil_state === "Dry") {
-    //                 // document.getElementById('soil').style.color = "red";
-    //                 // document.querySelector('.soil').style.backgroundColor = "orange";
-    //             // }
-    //             // document.getElementById('temperature').innerHTML = parseInt(data.temperature) + "°C";
-    //             // document.getElementById('humidity').innerHTML = parseInt(data.humidity) + "%";
-    //             // document.getElementById('light').innerHTML = data.light + "&deg;";
-    //             // document.getElementById('soil').innerHTML = soil_state;
-    //         // })
-    //         // .catch((error) => {
-    //             // console.error('Error:', error);
-    //         // });
-    // }
+    function fetchSensorData() {
+        // fetch('http://192.168.1.1/sensor/info', 
+        //     method: 'POST',
+        //     body: 
+        // )
 
-    // //Change the value of the sensor data every 5 seconds
-    // fetchSensorData();
-    // setInterval(fetchSensorData, 2000);
+        axios({
+            method: 'post',
+            url: 'http://192.168.1.1/sensor/info'
+        })
+            .then(response => response.json())
+            .then(data => {
+                const soil_state = data.soil === 1 ? "Wet" : "Dry";
+                // Measuring the different thresholds of the sensors and displaying them with colors
+                if (data.temperature > 30) {
+                    document.getElementById('temperature').style.color = "red";
+                    document.querySelector('.temperature').style.backgroundColor = "orange";
+                }
+                if (data.humidity < 50) {
+                    document.getElementById('humidity').style.color = "red";
+                    document.querySelector('.humidity').style.backgroundColor = "orange";
+                }
+                if (data.light < 100) {
+                    document.getElementById('light').style.color = "red";
+                    document.querySelector('.light').style.backgroundColor = "orange";
+                }
+                if (soil_state === "Dry") {
+                    document.getElementById('soil').style.color = "red";
+                    document.querySelector('.soil').style.backgroundColor = "orange";
+                }
+                document.getElementById('temperature').innerHTML = parseInt(data.temperature) + "°C";
+                document.getElementById('humidity').innerHTML = parseInt(data.humidity) + "%";
+                document.getElementById('light').innerHTML = data.light + "&deg;";
+                document.getElementById('soil').innerHTML = soil_state;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    //Change the value of the sensor data every 5 seconds
+    fetchSensorData();
+    setInterval(fetchSensorData, 2000);
 }

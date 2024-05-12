@@ -13,8 +13,10 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
-    "@fontsource/poppins": "^5.0.13",
+    "@fontsource/poppins": "^5.0.14",
     "@phosphor-icons/web": "^2.1.1",
-    "animejs": "^3.2.2"
+    "animejs": "^3.2.2",
+    "axios": "^1.6.8",
+    "chart.js": "^4.4.2"
   }
 }

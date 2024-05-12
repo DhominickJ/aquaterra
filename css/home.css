@@ -1,0 +1,149 @@
+main.route-home {
+  display: grid;
+}
+main.route-home section.status-icons {
+  display: grid;
+  flex-wrap: wrap;
+  justify-items: center;
+}
+main.route-home section.status-icons #status-level {
+  fill: var(--primary);
+  background-color: var(--secondary);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+main.route-home section.status-icons .status-components {
+  display: flex;
+  align-items: center;
+  margin-block: 1rem;
+  gap: 1rem;
+}
+main.route-home section.status-icons .status-components span {
+  --fill: var(--secondary);
+  display: grid;
+  justify-items: center;
+  position: relative;
+  color: var(--fill);
+  font-size: 3rem;
+  transition: 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+main.route-home section.status-icons .status-components span::after {
+  position: absolute;
+  top: 100%;
+  content: attr(data-description);
+  opacity: 0;
+  transition: 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: var(--fill);
+  font-size: 1rem;
+}
+main.route-home section.status-icons .status-components span:hover {
+  transform: translateY(-1rem);
+}
+main.route-home section.status-icons .status-components span:hover::after {
+  opacity: 1;
+}
+main.route-home section.status-icons .status-components span.warning {
+  --fill: var(--warning);
+}
+main.route-home section.status-icons .status-components span.critical {
+  --fill: var(--error);
+}
+main.route-home section.nameplate {
+  border: 4px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin: 1rem;
+}
+main.route-home section.nameplate p {
+  color: var(--accent);
+}
+
+@media screen and (min-width: 800px) {
+  main.route-home {
+    grid-template-columns: 1fr 1fr;
+  }
+  main.route-home section.status-icons {
+    display: grid;
+    grid-template-columns: 0.3fr 0.7fr;
+    flex-wrap: wrap;
+    justify-items: center;
+    align-items: center;
+  }
+  main.route-home section.status-icons #status-level {
+    background-color: transparent;
+    border-radius: 10px;
+    width: 50%;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8rem;
+    color: var(--error);
+  }
+  main.route-home section.status-icons .status-container {
+    margin-block: 1rem;
+    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+  main.route-home section.status-icons .status-container span {
+    --fill: var(--secondary);
+    display: grid;
+    justify-items: center;
+    position: relative;
+    color: var(--fill);
+    font-size: 5rem;
+    transition: 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  main.route-home section.status-icons .status-container span::after {
+    position: absolute;
+    top: 100%;
+    content: attr(data-description);
+    opacity: 0;
+    transition: 250ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--fill);
+    font-size: 1.5rem;
+  }
+  main.route-home section.status-icons .status-container span:hover {
+    transform: translateY(-1rem);
+  }
+  main.route-home section.status-icons .status-container span:hover::after {
+    opacity: 1;
+  }
+  main.route-home section.status-icons .status-container span.warning {
+    --fill: var(--warning);
+  }
+  main.route-home section.status-icons .status-container span.critical {
+    --fill: var(--error);
+  }
+  main.route-home section.nameplate {
+    border: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 0.5rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+  }
+  main.route-home section.nameplate p {
+    color: var(--accent);
+  }
+  main.route-home section.nameplate #name {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  section.description {
+    font-size: 1.2rem;
+    width: 90%;
+    margin-left: 1rem;
+    color: var(--text);
+  }
+  section.description #description {
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+  section.description #description-content {
+    margin-left: 1rem;
+  }
+}/*# sourceMappingURL=home.css.map */

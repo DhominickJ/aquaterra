@@ -4,6 +4,8 @@
  * @param {string} url 
  * @param {string[][]} params 
  */
+
+// This will simply get the HTML tags associated with this 
 export async function fetchHtml(url, params) {
     let fetchedHtml = await (await fetch(`/routes/${url || 'index'}.ejs`)).text()
 
