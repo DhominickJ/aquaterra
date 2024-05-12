@@ -61,7 +61,7 @@ export default function sensors() {
             targets: el,
             keyframes: [
                 { scale: ['100%', '150%'], easing: 'easeInQuad', duration: 200 },
-                { left: '55vw', scale: '300%', duration: 0 },
+                { left: '55vw', scale: '250%', duration: 0 },
                 { top: [-100, '45vh'], duration: 600, easing: 'easeOutElastic(3, 1)' }
             ],
             changeBegin: () => el.classList.add('animating'),

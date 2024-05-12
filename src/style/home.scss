@@ -1,5 +1,4 @@
 main.route-home {
-  display: grid;
   section.status-icons {
     display: grid;
     flex-wrap: wrap;
@@ -16,7 +15,7 @@ main.route-home {
       align-items: center;
     }
 
-    .status-components {
+    .status-container {
       display: flex;
       align-items: center;
 
@@ -79,11 +78,23 @@ main.route-home {
     }
   }
 
+  section.description{
+    font-size: 1rem;
+    padding-bottom: 1rem;
 
+    #description{
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    #description-content{
+      margin-left: 1rem;
+    }
+  }
 }
 
 @media screen and (min-width: 800px){
 main.route-home{
+  display: grid;
   grid-template-columns: 1fr 1fr;
   
   section.status-icons {
