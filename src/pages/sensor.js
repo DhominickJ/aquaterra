@@ -1,5 +1,6 @@
 import anime from "animejs"
 import axios from "axios"
+import http from 'http'
 
 export default function sensors() {
 
@@ -22,8 +23,6 @@ export default function sensors() {
         'color: goldenrod;'
     )
 
-
-
     icons.forEach(el => {
         const { x, y } = el.getBoundingClientRect()
         el.style.position = 'fixed'
@@ -37,24 +36,28 @@ export default function sensors() {
     document.addEventListener('click', e => {
         e.stopPropagation()
 
+        
         /** @type {HTMLElement} */
-        const el = e.target.closest('span')
+        const el = e.target.closest('.status-elements span')
         if (!el || document.querySelector('.animating')) return
-
+        
         if ([...arr.values()].find(val => val.el === el)) {
             const e = [...arr.values()].find(val => val.el === el)
             e.anim.reverse()
             e.anim.play()
             arr.delete(e)
+            el.classList.remove('shown')
             return
         }
 
+        el.classList.add('shown')
         arr.forEach((item) => {
             const { anim, el } = item
-
+            
             anim.reverse()
             anim.play()
             arr.delete(item)
+            el.classList.remove('shown')
         })
 
         const anim = anime({
@@ -70,48 +73,134 @@ export default function sensors() {
         arr.add({ anim, el })
     })
 
-
-    function fetchSensorData() {
-        // fetch('http://192.168.1.1/sensor/info', 
-        //     method: 'POST',
-        //     body: 
-        // )
-
-        axios({
-            method: 'post',
-            url: 'http://192.168.1.1/sensor/info'
-        })
-            .then(response => response.json())
-            .then(data => {
-                const soil_state = data.soil === 1 ? "Wet" : "Dry";
-                // Measuring the different thresholds of the sensors and displaying them with colors
-                if (data.temperature > 30) {
-                    document.getElementById('temperature').style.color = "red";
-                    document.querySelector('.temperature').style.backgroundColor = "orange";
-                }
-                if (data.humidity < 50) {
-                    document.getElementById('humidity').style.color = "red";
-                    document.querySelector('.humidity').style.backgroundColor = "orange";
-                }
-                if (data.light < 100) {
-                    document.getElementById('light').style.color = "red";
-                    document.querySelector('.light').style.backgroundColor = "orange";
-                }
-                if (soil_state === "Dry") {
-                    document.getElementById('soil').style.color = "red";
-                    document.querySelector('.soil').style.backgroundColor = "orange";
-                }
-                document.getElementById('temperature').innerHTML = parseInt(data.temperature) + "°C";
-                document.getElementById('humidity').innerHTML = parseInt(data.humidity) + "%";
-                document.getElementById('light').innerHTML = data.light + "&deg;";
-                document.getElementById('soil').innerHTML = soil_state;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
+    async function fetchSensorData() {
+        try {
+            const response = await fetch('http://localhost:6969/sensor/info', {
+            method: 'POST'
             });
-    }
-
-    //Change the value of the sensor data every 5 seconds
-    fetchSensorData();
+            if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+        
+            const soilState = data.soil === 1 ? "Wet" : "Dry";
+        
+            // Update element content using a helper function (explained below)
+            updateSensorDisplay(data.temperature, data.humidity, data.light, soilState);
+        
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        function updateSensorDisplay(temperature, humidity, light, soilState) {
+            const tempEl = document.querySelector('#status-temperature > .data');
+            const humidityElement = document.querySelector('#status-humidity > .data');
+            const lightEl = document.querySelector('#status-sunlight > .data');
+            const waterEl = document.querySelector('#status-droplet > .data');
+          
+            // Update temperature
+            tempEl.innerText = temperature; // Set text content to numerical value
+          
+            // Update humidity
+            humidityElement.innerText = humidity; // Append "%" symbol
+          
+            // Update light (assuming light value represents intensity)
+            lightEl.innerText = light; // Set text content to light value
+          
+            // Update soil state (assuming soilState represents moisture level)
+            waterEl.innerText = soilState; // Set text content to soilState value
+          
+            // Hide icons (assuming icons are child elements)
+            const tempIcon = tempEl.querySelector('i'); // Select child with ".icon" class
+            const humidityIcon = humidityElement.querySelector('i');
+            const lightIcon = lightEl.querySelector('i');
+            const waterIcon = waterEl.querySelector('i');
+          
+            if (tempIcon) tempIcon.style.display = 'none'; // Hide temperature icon
+            if (humidityIcon) humidityIcon.style.display = 'none'; // Hide humidity icon
+            if (lightIcon) lightIcon.style.display = 'none'; // Hide light icon
+            if (waterIcon) waterIcon.style.display = 'none'; // Hide water icon
+          }
+          
+    // Call the function to fetch data (assuming this is called appropriately)
     setInterval(fetchSensorData, 2000);
+    
+    // const socket = new WebSocket("ws://192.168.1.1:6969")
+
+    // socket.onopen = function(event) {
+    //     console.log("[open] Connection established");
+    //     socket.send("Hello from client!");
+    // };
+    
+    // socket.onmessage = function(event) {
+    //     console.log(`[message] Data received from server: ${event.data}`);
+    // };
+
+    // // const http = require('http');
+    // const hostname = '127.0.0.1';
+    // const port = 3000;
+    // const arduinoIP = '192.168.1.1'; // Arduino static IP
+
+    // const httpOptions = {
+    // hostname: arduinoIP,
+    // port: 80, // Assuming Arduino web server is on port 80
+    // path: '/sensor/data', // Assuming the data endpoint on Arduino
+    // method: 'GET', // Assuming data is sent via GET request
+    // };
+
+    // function getSensorData(callback) {
+    // const req = http.request(httpOptions, (res) => {
+    //     console.log(`statusCode: ${res.statusCode}`);
+
+    //     let data = '';
+    //     res.on('data', (chunk) => {
+    //     data += chunk;
+    //     });
+
+    //     res.on('end', () => {
+    //     try {
+    //         const sensorValues = JSON.parse(data);
+    //         callback(sensorValues); // Pass received data to callback
+    //     } catch (error) {
+    //         console.error('Error parsing sensor data:', error);
+    //         callback(null); // Pass null on parsing error
+    //     }
+    //     });
+    // });
+
+    // req.on('error', (error) => {
+    //     console.error('Error fetching sensor data:', error);
+    //     callback(null); // Pass null on error
+    // });
+
+    // req.end();
+    // }
+
+    // const server = http.createServer((req, res) => {
+    // console.log(`Request received: ${req.url}`);
+
+    // if (req.url === '/') {
+    //     getSensorData((sensorValues) => {
+    //     if (sensorValues) {
+    //         // Process sensor values (e.g., display, store)
+    //         res.statusCode = 200;
+    //         res.setHeader('Content-Type', 'text/plain');
+    //         res.end(`Received sensor data: ${JSON.stringify(sensorValues)}`);
+    //     } else {
+    //         res.statusCode = 500;
+    //         res.setHeader('Content-Type', 'text/plain');
+    //         res.end('Error fetching sensor data');
+    //     }
+    //     });
+    // } else {
+    //     res.statusCode = 404;
+    //     res.setHeader('Content-Type', 'text/plain');
+    //     res.end('Not Found');
+    // }
+    // });
+
+    // server.listen(port, hostname, () => {
+    // console.log(`Server running at http://${hostname}:${port}/`);
+    // }); 
 }

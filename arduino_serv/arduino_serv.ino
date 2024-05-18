@@ -95,19 +95,19 @@ void wifiConnect(){
   WiFi.softAP(ssid, password, 1, 0, 1);
   WiFi.softAPConfig(local_ip, gateway, subnet);
 
-  // Connection Functions
-  Serial.println("Connecting");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
-    digitalWrite(WIFI_PIN, HIGH);
-    delay(1000);
-    digitalWrite(WIFI_PIN, LOW);
-  }
-  digitalWrite(CONNECTED_PIN, HIGH);
-  Serial.println("");
-  Serial.print("Connected to WiFi network with IP Address: ");
-  Serial.println(WiFi.localIP());
+  // // Connection Functions
+  // Serial.println("Connecting");
+  // while (WiFi.status() != WL_CONNECTED) {
+  //   delay(1000);
+  //   Serial.print(".");
+  //   digitalWrite(WIFI_PIN, HIGH);
+  //   delay(1000);
+  //   digitalWrite(WIFI_PIN, LOW);
+  // }
+  // digitalWrite(CONNECTED_PIN, HIGH);
+  // Serial.println("");
+  // Serial.print("Connected to WiFi network with IP Address: ");
+  // Serial.println(WiFi.localIP());
 }
 
 void readSensors(){
@@ -152,7 +152,7 @@ void sendPOST(float temperature, float humidity, int daytime_sensor, int soil_se
   http.begin(url);
   // delay(2000);
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-  http.addHeader("Access-Control-Allow-Origin", "http://192.168.1.2/");
+  http.addHeader("Access-Control-Allow-Origin", "*");
   String postString = "temperature=" + String(temperature) + "&humidity=" + String(humidity) + "&light_sensor=" + String(daytime_sensor) + "&soil_sensor=" + String(soil_sensor);
   Serial.println(postString);
   int httpCode = http.POST(postString.c_str());
@@ -174,7 +174,7 @@ void sendPOST(float temperature, float humidity, int daytime_sensor, int soil_se
   }
 
   http.end();
-  // delay(5000);
+  delay(5000);
 }
 
 void sendData(float temperature, float humidity, int daytime_sensor, int soil_sensor){
