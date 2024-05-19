@@ -54,21 +54,19 @@ export default function records() {
                   }
             },
             scales: {
-                scales: {
-                    xAxes: [{
-                      stacked: true, // Stack bars if needed for multiple charts
-                      ticks: {
-                        display: false // Hide x-axis labels for individual charts
-                      }
-                    }],
-                    yAxes: [{
-                      ticks: {
-                        display: true // Show y-axis labels
-                      }
-                    }]
-                }   
-            }
-        },
+                xAxes: [{
+                    stacked: true, // Stack bars if needed for multiple charts
+                    ticks: {
+                    display: false // Hide x-axis labels for individual charts
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                    display: true // Show y-axis labels
+                    }
+                }]
+            }   
+            },
         plugins: {
             streaming: {
                 options: {
