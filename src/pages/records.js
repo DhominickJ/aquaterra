@@ -15,21 +15,24 @@ export default function records() {
                     borderColor: 'red',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     pointRadius: 3,
-                },
+                }],
+            datasets: [
                 {
                     label: 'Humidity (%)',
                     data: [],
                     borderColor: 'blue',
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     pointRadius: 3,
-                },
+                }],
+            datasets: [
                 {
                     label: 'Light (Lux)',
                     data: [],
                     borderColor: 'green',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     pointRadius: 3,
-                },
+                }],
+            datasets: [
                 {
                     label: 'Soil Moisture (%)',
                     data: [],
@@ -51,20 +54,19 @@ export default function records() {
                   }
             },
             scales: {
-                x: {
-                    type: 'time',
-                    display: true,
-                    title: {
-                        display: true,
-                        text: 'Time'
-                    }
-                },
-                y: {
-                    // type: 'time',
-                    ticks: {
-                        suggestedMin: 0, // Set minimum for all y-axes
-                    }
-                }
+                scales: {
+                    xAxes: [{
+                      stacked: true, // Stack bars if needed for multiple charts
+                      ticks: {
+                        display: false // Hide x-axis labels for individual charts
+                      }
+                    }],
+                    yAxes: [{
+                      ticks: {
+                        display: true // Show y-axis labels
+                      }
+                    }]
+                }   
             }
         },
         plugins: {
@@ -85,12 +87,13 @@ export default function records() {
         });
         const data = await response.json();
         const timestamp = new Date().getTime();
+        const latestIndex = chart.data.datasets[0].data.length - 1
 
         // Limit data before pushing to chart
-        chart.data.datasets[0].data = chart.data.datasets[0].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.temperature });
-        chart.data.datasets[1].data = chart.data.datasets[1].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.humidity });
-        chart.data.datasets[2].data = chart.data.datasets[2].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.light });
-        chart.data.datasets[3].data = chart.data.datasets[3].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.soil });
+        chart.data.datasets[0].data[latestIndex] = chart.data.datasets[0].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.temperature });
+        chart.data.datasets[1].data[latestIndex] = chart.data.datasets[1].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.humidity });
+        chart.data.datasets[2].data[latestIndex] = chart.data.datasets[2].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.light });
+        chart.data.datasets[3].data[latestIndex] = chart.data.datasets[3].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.soil });
 
         chart.update();
 
