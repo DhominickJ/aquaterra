@@ -36,10 +36,10 @@ const collectionName = "sensor_data";
 const threshold = 0.1; // Threshold for significant change (10%)
 
 app.post('/sensor/data', async (req, res) => {
-  const temperature = req.body.temperature;
-  const humidity = req.body.humidity;
-  const light = req.body.light_sensor;
-  const soil = req.body.soil_sensor;
+  temperature = req.body.temperature;
+  humidity = req.body.humidity;
+  light = req.body.light_sensor;
+  soil = req.body.soil_sensor;
 
   const client = new MongoClient(uri);
 
@@ -108,7 +108,7 @@ app.post('/sensor/info', (req, res) => {
     return res.sendStatus(200);
   }
 
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Set CORS headers to avoid errors
   res.json(data);
   res.end();
 })

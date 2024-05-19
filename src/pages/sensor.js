@@ -82,6 +82,8 @@ export default function sensors() {
             throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
+
+            console.log(data)
         
             const soilState = data.soil === 1 ? "Wet" : "Dry";
         
@@ -100,32 +102,21 @@ export default function sensors() {
             const waterEl = document.querySelector('#status-droplet > .data');
           
             // Update temperature
-            tempEl.innerText = temperature; // Set text content to numerical value
+            tempEl.innerText = parseInt(temperature); // Set text content to numerical value
           
             // Update humidity
-            humidityElement.innerText = humidity; // Append "%" symbol
+            humidityElement.innerText = parseInt(humidity); // Append "%" symbol
           
             // Update light (assuming light value represents intensity)
-            lightEl.innerText = light; // Set text content to light value
+            lightEl.innerText = parseInt(light); // Set text content to light value
           
             // Update soil state (assuming soilState represents moisture level)
             waterEl.innerText = soilState; // Set text content to soilState value
           
-            // Hide icons (assuming icons are child elements)
-            const tempIcon = tempEl.querySelector('i'); // Select child with ".icon" class
-            const humidityIcon = humidityElement.querySelector('i');
-            const lightIcon = lightEl.querySelector('i');
-            const waterIcon = waterEl.querySelector('i');
-          
-            if (tempIcon) tempIcon.style.display = 'none'; // Hide temperature icon
-            if (humidityIcon) humidityIcon.style.display = 'none'; // Hide humidity icon
-            if (lightIcon) lightIcon.style.display = 'none'; // Hide light icon
-            if (waterIcon) waterIcon.style.display = 'none'; // Hide water icon
           }
           
     // Call the function to fetch data (assuming this is called appropriately)
     setInterval(fetchSensorData, 2000);
-    
     // const socket = new WebSocket("ws://192.168.1.1:6969")
 
     // socket.onopen = function(event) {

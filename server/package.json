@@ -9,6 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "chart.js": "^4.4.3",
     "express": "^4.19.2",
     "express-ws": "^5.0.2"
   }

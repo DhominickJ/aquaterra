@@ -17,7 +17,9 @@
     "@phosphor-icons/web": "^2.1.1",
     "animejs": "^3.2.2",
     "axios": "^1.6.8",
-    "chart.js": "^4.4.2",
+    "chart.js": "^4.4.3",
+    "chartjs-adapter-moment": "^1.0.1",
+    "chartjs-plugin-streaming": "2.0.0",
     "mongodb": "^6.6.2"
   }
 }
