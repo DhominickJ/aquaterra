@@ -108,9 +108,9 @@
         
             video {
                 width: 75%;
-                margin-top: 10rem;
+                margin-top: 4rem;
                 margin-bottom: 0;
-                margin-left: 18rem;
+                margin-left: 12rem;
                 grid-column: 1;
             }
         
@@ -118,19 +118,20 @@
                 // height: 30vh;
                 overflow-y: auto;
                 grid-column: 2;
+                margin-right: 10rem;
 
                 .status-elements{
                     grid-column: 2;
 
                     span{
-                        padding: 4rem;
+                        padding: 2.5rem;
 
-                        font-size: 3rem;
+                        font-size: 2rem;
 
                         &.shown p {
                             opacity: 1;
                             font-weight: 500;
-                            font-size: 4.2rem;
+                            font-size: 2.2rem;
                             transition: opacity 1s cubic-bezier(1, 0, 0, 1);
                         }
                     }

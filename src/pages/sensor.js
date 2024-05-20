@@ -63,7 +63,7 @@ export default function sensors() {
         const anim = anime({
             targets: el,
             keyframes: [
-                { scale: ['100%', '150%'], easing: 'easeInQuad', duration: 200 },
+                { scale: ['100%', '250%'], easing: 'easeInQuad', duration: 200 },
                 { left: '55vw', scale: '150%', duration: 0 },
                 { top: [-100, '45vh'], duration: 600, easing: 'easeOutElastic(3, 1)' }
             ],

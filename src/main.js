@@ -2,8 +2,11 @@ import Router from './managers/router'
 
 Router.instance.init()
 
+let counter;
+
 async function checkThreshold() {
 
+    counter++;
     const thresholds = {
         temperature: {
             normal: 20,
@@ -26,9 +29,8 @@ async function checkThreshold() {
             critical: 0,
             warning: 2,
         },
-        };
+    };
     
-
     const response = await fetch('http://localhost:6969/sensor/info', {
         method: 'POST'
     })
@@ -51,6 +53,9 @@ async function checkThreshold() {
     let value;
     let threshold;
 
+    // Creating the calculation for the state of the plant
+    let plantState = document.getElementById("plantState");
+
     for (const key in data) {
         value = data[key];
         threshold = thresholds[key];
@@ -71,6 +76,17 @@ async function checkThreshold() {
         } else {
             classes[key] = "normal";
         }   
+
+        // Pausing and Playing the Video
+        // videoElement.pause()
+
+        if (data.temperature > thresholds.light.critical) {
+            plantState.setAttribute('src', '/plant/heating.mp4')
+        }else if((data.soil == thresholds.soil.critical) && counter > 300){
+            plantState.setAttribute('src', '/plant/hungry.mp4')
+        } else {
+            plantState.setAttribute('src','/plant/idle.mp4')
+        }
     }
 
     const labelKeys = ['critical', 'warning', 'normal']
@@ -88,14 +104,25 @@ async function checkThreshold() {
     document.getElementById("status-droplet").classList.remove(labelKeys);
     document.getElementById("status-droplet").classList.add(classes.soil);
 
-    const sensorPage = document.getElementsByClassName("status-elements");
-
     const soilState = data.soil === 1 ? "Wet" : "Dry";
 
-    // Updating the values of the sensors
-    updateSensorDisplay(data.temperature, data.humidity, data.light, soilState);
-    
-}
+    try{
+        const sensorPage = document.getElementsByClassName("status-elements");
+        if(sensorPage) {
+            // Updating the values of the sensors
+            updateSensorDisplay(data.temperature, data.humidity, data.light, soilState);
+        }
+    } catch(error){
+        console.log("Not Found on the Current Page!")
+    }
+} 
+
+// For video parsing 
+let videoElement = document.getElementById("plantVideo");
+// videoElement.load()
+videoElement.addEventListener('canplaythrough', function() {
+    videoElement.play();  // Optional: Play the video after it's loaded
+  });
 
 function updateSensorDisplay(temperature, humidity, light, soilState) {
     const tempEl = document.querySelector('#status-temperature > .data');
