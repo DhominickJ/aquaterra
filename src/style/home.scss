@@ -1,4 +1,11 @@
 main.route-home {
+  height: 60vh;
+  overflow-y: auto;
+  
+.info_board{
+  height: inherit;
+  color: var(--text);
+
   section.status-icons {
     display: grid;
     flex-wrap: wrap;
@@ -6,13 +13,15 @@ main.route-home {
 
     #status-level {
       fill: var(--primary);
-      background-color: var(--secondary);
+      // background-color: var(--secondary);
       border-radius: 10px;
 
       padding: 1rem;
 
       display: flex;
       align-items: center;
+      font-size: 5rem;
+      color: var(--secondary);
     }
 
     .status-container {
@@ -76,11 +85,15 @@ main.route-home {
     p {
       color: var(--accent);
     }
+    h2{
+      text-align: center;
+    }
   }
 
   section.description{
     font-size: 1rem;
-    padding-bottom: 1rem;
+    padding: 1rem;
+    padding-bottom: 3rem;
 
     #description{
       font-size: 1.5rem;
@@ -88,6 +101,7 @@ main.route-home {
     }
     #description-content{
       margin-left: 1rem;
+      }
     }
   }
 }
@@ -97,6 +111,9 @@ main.route-home{
   display: grid;
   grid-template-columns: 1fr 1fr;
   
+.info_board{
+  height: 70vh;
+  overflow-y: auto;
   section.status-icons {
     display: grid;
     grid-template-columns: 0.3fr 0.7fr;
@@ -207,4 +224,5 @@ main.route-home{
         margin-left: 1rem;
       }
     }
+  }
 }

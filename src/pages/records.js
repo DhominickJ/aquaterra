@@ -5,7 +5,7 @@ import 'chartjs-plugin-streaming'
 Chart.register(TimeScale)
 
 export default function records() {
-    const chart = new Chart(document.getElementById('sensorChart'), {
+const chart = new Chart(document.getElementById('sensorChart'), {
         type: 'line',
         data: {
             datasets: [
@@ -30,13 +30,13 @@ export default function records() {
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     pointRadius: 3,
                 },
-                {
-                    label: 'Soil Moisture (%)',
-                    data: [],
-                    borderColor: 'brown',
-                    backgroundColor: 'rgba(153, 102, 49, 0.2)',
-                    pointRadius: 3,
-                }
+                // {
+                //     label: 'Soil Moisture (%)',
+                //     data: [],
+                //     borderColor: 'brown',
+                //     backgroundColor: 'rgba(153, 102, 49, 0.2)',
+                //     pointRadius: 3,
+                // }
             ]
         },
         options: {
@@ -76,9 +76,41 @@ export default function records() {
         }
     });
 
-    const MAX_ENTRIES = 20; // Define the maximum number of entries to display
+const wateredChart = new Chart(document.getElementById('wateredChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Watered', 'Dry'],
+      datasets: [{
+        label: 'Soil Moisture',
+        data: [],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.2)', // Light blue for watered
+          'rgba(255, 99, 132, 0.2)'  // Light red for dry
+        ],
+        borderColor: [
+          'rgba(54, 162, 235, 1)', // Blue for watered
+          'rgba(255, 99, 132, 1)'  // Red for dry
+        ],
+        borderWidth: 1,
+        hoverBackgroundColor: [
+            'rgba(54, 162, 235, 1)', // Blue for watered
+            'rgba(255, 99, 132, 1)'  // Red for dry
+        ]
 
-    const fetchData = async () => {
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false // Allow for different heights
+    }
+  });
+
+
+const MAX_ENTRIES = 20; // Define the maximum number of entries to display
+let wateredCounter = 0;
+let dryCounter = 0;
+
+const fetchData = async () => {
     try {
         const response = await fetch('http://localhost:6969/sensor/info', {
         method: 'POST'
@@ -86,13 +118,30 @@ export default function records() {
         const data = await response.json();
         const timestamp = new Date().getTime();
 
+        let wateredChartData = wateredChart.data.datasets[0];
+
+        // console.log(wateredChartData);
+
+        if(data.soil == 1){
+            wateredCounter++
+        } else {
+            dryCounter++
+        }
+
+        console.log(data.soil)
+    
+        // Logic containing for the plant state
+        wateredChartData.data = [wateredCounter, dryCounter];
+        console.log(wateredChartData.data)
+
         // Limit data before pushing to chart
         chart.data.datasets[0].data = chart.data.datasets[0].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.temperature });
         chart.data.datasets[1].data = chart.data.datasets[1].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.humidity });
         chart.data.datasets[2].data = chart.data.datasets[2].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.light });
-        chart.data.datasets[3].data = chart.data.datasets[3].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.soil });
+        // wateredChart.data.push(data.soil);
 
         chart.update();
+        wateredChart.update();
 
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -101,34 +150,33 @@ export default function records() {
     }
     }
 
-    fetchData(); // Call initially to start data retrieval
+    fetchData();
 
     const resizeChart = () => {
-        // Get the width of the container element (adjust as needed)
-        const chartCanvas = document.getElementById('sensorChart')
+            document.addEventListener('DOMContentLoaded', () => {
+                const chartCanvas = document.getElementById('sensorChart');
 
-        const availableHeight = window.innerHeight - 40; // Adjust padding value
+                // const availableHeight = window.innerHeight - 40; // Adjust padding value
 
-        // Set the container's height to the minimum of available height and 80vh
-        const containerHeight = Math.min(availableHeight, window.innerHeight * 0.5);
-        chartCanvas.parentElement.style.height = containerHeight + 'px';
-        // const containerWidth = chartCanvas.parentElement.clientWidth;
-      
-        // Define an aspect ratio to maintain chart proportions (optional)
-        const aspectRatio = 2;
-      
-        // Set the canvas width and height based on container width and aspect ratio
-        chartCanvas.width = containerWidth;
-        chartCanvas.height = containerWidth / aspectRatio;
-        console.log(chartCanvas.height)
-      
-        // Update the chart to reflect the new size
-        chart.update();
-      };
-      
-    // Call the resize function initially to set the size
-    resizeChart();
-    
-    // Add an event listener for window resize to update the chart on window resize
-    window.addEventListener('resize', resizeChart);  
-}
+                // // Set the container's height to the minimum of available height and 80vh
+                // const containerHeight = Math.min(availableHeight, window.innerHeight * 0.8);
+                // chartCanvas.parentElement.style.height = containerHeight + 'px';
+                // const containerWidth = chartCanvas.parentElement.clientWidth;
+            
+                // const aspectRatio = 2;
+            
+                // Set the canvas width and height based on container width and aspect ratio
+                chartCanvas.width = 601;
+                chartCanvas.height = 301;
+                console.log(chartCanvas.height)
+            
+                // Update the chart to reflect the new size
+                chart.update();
+            });
+        };
+        
+        resizeChart();
+        
+        // Add an event listener for window resize to update the chart on window resize
+        window.addEventListener('resize', resizeChart);  
+    }
