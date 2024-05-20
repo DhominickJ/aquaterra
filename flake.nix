@@ -11,9 +11,11 @@
   in {
     devShells.${system}.default = pkgs.mkShell {
       packages = with pkgs; [
-        influxdb2
         just sops
       ];
+      buildInputs = with pkgs; [ influxdb2 ];
+      SOPS_AGE_KEY_FILE = "./local/keys.txt";
     };
+    packages.${system}.run-db = {};
   };
 }
