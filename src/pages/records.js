@@ -5,6 +5,7 @@ import 'chartjs-plugin-streaming'
 Chart.register(TimeScale)
 
 export default function records() {
+
 const chart = new Chart(document.getElementById('sensorChart'), {
         type: 'line',
         data: {
@@ -30,13 +31,6 @@ const chart = new Chart(document.getElementById('sensorChart'), {
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     pointRadius: 3,
                 },
-                // {
-                //     label: 'Soil Moisture (%)',
-                //     data: [],
-                //     borderColor: 'brown',
-                //     backgroundColor: 'rgba(153, 102, 49, 0.2)',
-                //     pointRadius: 3,
-                // }
             ]
         },
         options: {
@@ -138,7 +132,6 @@ const fetchData = async () => {
         chart.data.datasets[0].data = chart.data.datasets[0].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.temperature });
         chart.data.datasets[1].data = chart.data.datasets[1].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.humidity });
         chart.data.datasets[2].data = chart.data.datasets[2].data.slice(-MAX_ENTRIES).concat({ x: timestamp, y: data.light });
-        // wateredChart.data.push(data.soil);
 
         chart.update();
         wateredChart.update();
@@ -156,21 +149,11 @@ const fetchData = async () => {
             document.addEventListener('DOMContentLoaded', () => {
                 const chartCanvas = document.getElementById('sensorChart');
 
-                // const availableHeight = window.innerHeight - 40; // Adjust padding value
-
-                // // Set the container's height to the minimum of available height and 80vh
-                // const containerHeight = Math.min(availableHeight, window.innerHeight * 0.8);
-                // chartCanvas.parentElement.style.height = containerHeight + 'px';
-                // const containerWidth = chartCanvas.parentElement.clientWidth;
-            
-                // const aspectRatio = 2;
-            
                 // Set the canvas width and height based on container width and aspect ratio
                 chartCanvas.width = 601;
                 chartCanvas.height = 301;
                 console.log(chartCanvas.height)
             
-                // Update the chart to reflect the new size
                 chart.update();
             });
         };

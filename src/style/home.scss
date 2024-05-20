@@ -66,10 +66,12 @@ main.route-home {
 
         &.warning {
           --fill: var(--warning);
+          color: var(--warning);
         }
 
         &.critical {
           --fill: var(--error);
+          color: var(--error);
         }
       }
     }
@@ -182,10 +184,12 @@ main.route-home{
 
         &.warning {
           --fill: var(--warning);
+          color: var(--warning);
         }
 
         &.critical {
           --fill: var(--error);
+          color: var(--error);
         }
       }
     }
