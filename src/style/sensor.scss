@@ -87,6 +87,10 @@
                 --fill: var(--error);
                 color: var(--error);
             }
+            &.normal{
+                --fill: var(--accent);
+                color: var(--accent);
+              }
         }
     }
     
