@@ -120,9 +120,9 @@ async function checkThreshold() {
 // For video parsing 
 let videoElement = document.getElementById("plantVideo");
 // videoElement.load()
-videoElement.addEventListener('canplaythrough', function() {
-    videoElement.play();  // Optional: Play the video after it's loaded
-  });
+// videoElement.addEventListener('canplaythrough', function() {
+//     videoElement.play();  // Optional: Play the video after it's loaded
+//   });
 
 function updateSensorDisplay(temperature, humidity, light, soilState) {
     const tempEl = document.querySelector('#status-temperature > .data');
