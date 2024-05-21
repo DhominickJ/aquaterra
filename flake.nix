@@ -14,7 +14,9 @@
         just sops
         railway
       ];
-      buildInputs = with pkgs; [ influxdb2 ];
+      buildInputs = with pkgs; [ 
+        influxdb2 nodejs bun
+      ];
       SOPS_AGE_KEY_FILE = "./local/keys.txt";
     };
     packages.${system}.run-db = {};
