@@ -12,6 +12,7 @@
     devShells.${system}.default = pkgs.mkShell {
       packages = with pkgs; [
         just sops
+        railway
       ];
       buildInputs = with pkgs; [ influxdb2 ];
       SOPS_AGE_KEY_FILE = "./local/keys.txt";
