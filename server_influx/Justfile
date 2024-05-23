@@ -1,0 +1,16 @@
+alias i-w := install-windows
+alias r := run
+
+default:
+  just list
+
+# Install dependencies in Windows. Ensure scoop is installed.
+install-windows:
+  scoop install sops
+  bun i
+
+run:
+  bun .
+
+list:
+  just --list
