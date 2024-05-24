@@ -51,7 +51,13 @@ const db = new InfluxDB({
 const writeApi = db.getWriteApi(AquaTerraDB.org, AquaTerraDB.bucket)
 const readApi = db.getQueryApi(AquaTerraDB.org)
 
-const threshold = 0.1; // Threshold for significant change (10%)
+const threshold = 0.05; // Threshold for significant change (10%)
+const cache = [{
+  temperature: NaN,
+  humidity: NaN,
+  light: NaN,
+  soil: NaN,
+}];
 
 app.post('/sensor/data', async (req, res) => {
   temperature = req.body.temperature;
@@ -59,18 +65,40 @@ app.post('/sensor/data', async (req, res) => {
   light = req.body.light_sensor;
   soil = req.body.soil_sensor;
 
-  res.sendStatus(200)
+  /**
+   * @type {number}
+   */
+  const delta = Math.max(
+    (temperature - cache.at(-1).temperature) / cache.at(-1).temperature,
+    (humidity - cache.at(-1).humidity) / cache.at(-1).humidity,
+    (light - cache.at(-1).light) / cache.at(-1).light,
+    (soil - cache.at(-1).soil) / cache.at(-1).soil,
+  )
+  console.log(delta)
 
-  const dbInputs = [ 
-    new Point('temperature').floatField('value', temperature),
-    new Point('humidity').floatField('value', humidity),
-    new Point('light').floatField('value', light),
-    new Point('soil').floatField('value', soil),
-  ]
+  if (!isNaN(delta) && delta < threshold) {
+    res.sendStatus(200)
+    cache.push({
+      temperature, humidity, light, soil
+    })
+  }
+  else {
+    const dbInputs = [ 
+      new Point('temperature').floatField('value', temperature),
+      new Point('humidity').floatField('value', humidity),
+      new Point('light').floatField('value', light),
+      new Point('soil').floatField('value', soil),
+    ]
+    
+    dbInputs.forEach(item => console.log(`${item}`))
+    
+    writeApi.writePoints(dbInputs)
+    res.sendStatus(200)
 
-  dbInputs.forEach(item => console.log(`${item}`))
-
-  // writeApi.writePoints(dbInputs)
+    cache.push({
+      temperature, humidity, light, soil
+    })
+  }
 })
 
 app.post('/sensor/info', (req, res) => {
