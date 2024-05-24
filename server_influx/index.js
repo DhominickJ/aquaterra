@@ -2,6 +2,7 @@ import express from 'express'
 import exec from 'child_process'
 import { InfluxDB, Point } from '@influxdata/influxdb-client';
 import { get } from 'http';
+import { table } from 'console';
 
 const app = express();
 const PORT = process.env.PORT || 6969;
@@ -109,6 +110,26 @@ app.post('/sensor/info', (req, res) => {
     soil: soil
   };
 
+  readApi.queryRows(
+    `from(bucket:${AquaTerraDB.bucket} |> range(start: -30m) |> last()`, {
+      next: (row, tableMeta) => {
+        const row = tableMeta.toObject(row)
+        if (row._measurement === "temperature") {
+          data.temperature = row._value
+        }
+        if (row._measurement === "humidity") {
+          data.humidity = row._value
+        }
+        if (row._measurement === "light") {
+          data.light = row._value
+        }
+        if (row._measurement === "soil") {
+          data.soil = row._value
+        }
+      },
+    }
+  )
+
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'POST');
     return res.sendStatus(200);
@@ -117,8 +138,4 @@ app.post('/sensor/info', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // Set CORS headers to avoid errors
   res.json(data);
   res.end();
-})
-
-app.get('/', (req, res) => {
-  console.log(temperature, humidity, light, soil)
 })
